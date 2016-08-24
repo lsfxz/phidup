@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.README.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'>
+<h1 id="label-phidup">phidup</h1>
+
+<p>phidup is a tool to find duplicate video files by comparing “perceptual
+hashes”, utilizing the <a href="http://www.phash.org">pHash library</a>.
+It&#39;s ~~totally ripped from~~ <em>inspired by</em> <a
+href="https://github.com/toy/pHash">the pHash gem</a>.</p>
+
+<p><strong>Be warned:</strong> This is in no way finished or stable, and my
+first attempt to actually code something useful, so while I welcome
+criticism and advice, you should not expect everything to “just work”.</p>
+
+<h2 id="label-Installation">Installation</h2>
+
+<p>phidup requires libpHash, which seems to be abandoned. Unfortunately it
+uses deprecated calls to ffmpeg, which makes it quite cumbersome to build,
+especially as I wasn&#39;t even able to get it to honor the explicitly
+given location of an older ffmpeg on Arch Linux which is rather annoying.
+Anyway, there&#39;s a version of <a
+href="https://github.com/hszcg/pHash-0.9.6">libpHash</a> which has some bug
+fixes, so you can try to build that. I intend to sit down with libpHash and
+get it to work with a more recent ffmpeg, but that might still take a
+while.</p>
+
+<p>Once you have libpHash installed, you can run</p>
+
+<pre class="code ruby"><code class="ruby">$ bundle install
+$ gem build ./phidup.gemspec</code></pre>
+
+<p>And install it with:</p>
+
+<pre class="code ruby"><code class="ruby">$ gem install ./phidup-0.3.0.gem</code></pre>
+
+<h2 id="label-Usage">Usage</h2>
+
+<p>phidup provides the <code>phidup</code> command, which provides (some help)
+via -h, until I properly describe the usage here.</p>
+
+<h2 id="label-Dependencies">Dependencies</h2>
+<ul><li>
+<p><a href="http://www.phash.org/download/">pHash</a></p>
+</li><li>
+<p><a href="https://github.com/ffi/ffi#readme">ffi</a></p>
+</li><li>
+<p><a href="https://github.com/sparklemotion/sqlite3-ruby">sqlite3</a></p>
+</li><li>
+<p><a href="https://github.com/ManageIQ/trollop">trollop</a></p>
+</li></ul>
+
+<h2 id="label-TODO">TODO</h2>
+<ul><li>
+<p>[ ] Better tests.</p>
+</li><li>
+<p>[ ] Better documentation (yes, I know. I feel bad.)</p>
+</li><li>
+<p>[ ] Understand why sometimes libpHash returns empty hashes. It&#39;s not
+even that much code, but I still don&#39;t understand it..</p>
+</li><li>
+<p>[ ] Understand how it sometimes manages to magically crash phidup/ruby
+silently, without even an exception being raised.</p>
+</li><li>
+<p>[ ] Fix the points above.</p>
+</li><li>
+<p>[ ] Try to speed it up by removing unnecessary calculations with invavid
+hashes (mostly done) (By the way: A lot of the heavy lifting isn&#39;t even
+done in ruby, but by libPhash, obviously, so there might not be too much
+improvement).</p>
+</li><li>
+<p>[ ] Look for a faster implementation to calculate the hamming distance.</p>
+</li><li>
+<p>[ ] Maybe rewrite it in <a href="https://crystal-lang.org/">crystal</a>.
+Ruby-like syntax but compiled code? I like it!</p>
+</li><li>
+<p>[ ] Improve the code, as well as the general design, while I keep
+understanding more about ruby and programming in general.</p>
+</li></ul>
+
+<h2 id="label-License">License</h2>
+
+<p>Released under the GPLv3 as required by license of underlying pHash
+library. See LICENSE.txt for details.</p>
+</div></div>
+
+    <div id="footer">
+  Generated on Wed Aug 24 14:09:33 2016 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-2.3.1).
+</div>
+
+  </body>
+</html>
