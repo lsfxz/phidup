@@ -12,6 +12,7 @@ filetypes = %w( wmv avi mpg mpeg
 # scans the given directory for files of filetype, optionally recurses
 # @param [String] dir path to a directory
 # @param [String[]] filetypes List of filetypes to include
+# @option opts [Boolean] :recursive Whether to recursively scan subdirectories
 # @return [String[]] files a list of files
 def scan(dir, filetypes, opts)
   files = []

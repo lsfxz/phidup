@@ -5,32 +5,33 @@ require 'phidup/phobject'
 
 module Phidup
   # Handles the database files and file pathes,
-  # initial scanning and comparing of .Phobjects'
+  # initial scanning and comparing of .Phobjects.
   class Phile
-    # Opens database file and fills it, if necessary.
+    # Opens database file and fills it, if necessary..
     #
-    # @param files [String[]] pathes to files
-    # @option opts [Integer] :threshold hamming distence from which on a file
-    #   is considered a duplicate
-    # @option opts [Boolean] :append Whether to append files to the db
-    # @option opts [Boolean] :resume Whether to resume a scanning process
-    # @option opts [Boolean] :results Whether to show the results/dups
+    # @param files [String[]] Pathes to files.
+    # @option opts [Integer] :threshold Hamming distance from which on a file
+    #   is considered a duplicate.
+    # @option opts [Boolean] :append Whether to append files to the db.
+    # @option opts [Boolean] :resume Whether to resume a scanning process.
+    # @option opts [Boolean] :results Whether to show the results/duplicates.
+    # @option opts [Boolean] :merge Whether to merge with another db.
     def initialize(files, opts)
       @files = files
       @threshold = opts[:threshold]
-      @dbfile = Pathname.new(opts[:dbfile]).expand_path
-      if (opts[:resume] || opts[:results] || opts[:append]) && !@dbfile.exist?
-        puts "#{@dbfile} does not exist!"
+      dbfile = Pathname.new(opts[:dbfile]).expand_path
+      if (opts[:resume] || opts[:results] || opts[:append]) && !dbfile.exist?
+        puts "#{dbfile} does not exist!"
         exit
-      elsif !(opts[:resume] || opts[:results] || opts[:append] || opts[:merge_given]) && @dbfile.exist?
-        puts "#{@dbfile} exists!"
+      elsif !(opts[:resume] || opts[:results] || opts[:append] || opts[:merge_given]) && dbfile.exist?
+        puts "#{dbfile} exists!"
         exit
       end
 
-      @db = SQLite3::Database.new(@dbfile.to_s)
+      @db = SQLite3::Database.new(dbfile.to_s)
     end
 
-    # Creates the tables in the database and fills it with the file pathes
+    # Creates the tables in the database and fills it with the file pathes.
     def create_db
       @db.execute_batch <<-EOS
       PRAGMA foreign_keys;
@@ -96,7 +97,7 @@ module Phidup
     end
 
     # Calculates the hamming distances between the files and stores them in
-    #   the database
+    # the database
     def calc_dists
       each do |phob|
         each do |phob_2|
@@ -110,7 +111,7 @@ module Phidup
     end
 
     # Returns the files from the database which, according to @threshold,
-    #   are potential duplicates
+    # are potential duplicates
     # @return [String[]] an array of the pathes of potential duplicates
     def dups
       # TODO use each dist?
@@ -132,6 +133,8 @@ module Phidup
       end
     end
 
+    # Merges (usable/valid) Data of another Phile object in the current one
+    # @param other_phile [Phobject] The Phile object containing the other db
     def merge(other_phile)
       other_phile.is_a?(Phile) or raise ArgumentError.new('other_phile is not a Phile')
       mappings = {}
@@ -154,12 +157,18 @@ module Phidup
       end
     end
 
+    # Returns the Phobject for the given id
+    # @param id [Fixnum] The id the Phobject should be returned for
+    # @return [Phobject] The Phobject for the given id
     def phob_by_id(id)
       path = @db.execute('SELECT path FROM tblphiles WHERE id == ?', [id]).flatten[0]
       ph_array = @db.execute('SELECT hash_array FROM tbl_philes_hashes WHERE id == ?', [id]).flatten[0]
       Phobject.new(path, id: id, ph_array: YAML.load(ph_array))
     end
 
+    # Returns an Enumerator if no block is given, otherwise it iterates
+    # through the Phobjects.
+    # @return [Enumerator] unless given a block
     def each
       return enum_for(:each) unless block_given?
       files = @db.execute('SELECT id FROM tblphiles WHERE id IN (SELECT id FROM tbl_philes_hashes)')
@@ -168,6 +177,9 @@ module Phidup
       end
     end
 
+    # Returns an Enumerator if no block is given, otherwise it iterates.
+    # through the already calucated hamming distances between the files.
+    # @return [Enumerator] unless given a block.
     def each_dist
       return enum_for(:each_dist) unless block_given?
       # is this too big for mem?
@@ -177,6 +189,10 @@ module Phidup
       end
     end
 
+    # Adds a new file/path to the db.
+    # @param path [String] The path of the file to be added.
+    # @return [nil] if the path is already in the database.
+    # @return [Fixnum] if successful.
     def store_path(path)
       # TODO: catch unique-constraint-exception?
       # puts @db.execute('SELECT id FROM tblphiles WHERE path == ?', [path]).empty?
@@ -186,10 +202,18 @@ module Phidup
       @db.execute('SELECT id FROM tblphiles WHERE path == ?', [path])
     end
 
+    # Stores an array of pHash data and its id in the database.
+    # @param ph_array [Bignum[]] An array with the pHash data.
+    # @param id [Fixnum] The corresponding id to the hash.
     def store_phash(ph_array, id)
       @db.execute('INSERT INTO tbl_philes_hashes (id, hash_array) VALUES(?, ?)', [id, YAML.dump(ph_array)])
     end
 
+    # Stores the hamming distance between to files specified by id.
+    # @param id1 [Fixnum] The id of the first file.
+    # @param id2 [Fixnum] The id of the second file.
+    # @param distance [Float] The hamming distance between both files.
+    # @return [nil] if already in database
     def store_dist(id1, id2, distance)
       # TODO: catch unique-constraint-exception?
       return nil unless @db.execute('SELECT distance FROM tbl_philes_distances WHERE id_1 == ? AND id_2 == ?', [id1, id2]).empty?

@@ -216,7 +216,49 @@
       
     </li>
   
+    <li>
+      
+        <span class='name'>opts</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a customizable set of options</p>
+</div>
+      
+    </li>
+  
 </ul>
+
+  
+    
+    
+    
+    
+    
+    
+    <p class="tag_title">Options Hash (<tt>opts</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:recursive</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Whether to recursively scan subdirectories</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
@@ -243,7 +285,6 @@
       <pre class="lines">
 
 
-16
 17
 18
 19
@@ -257,10 +298,11 @@
 27
 28
 29
-30</pre>
+30
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/phidup.rb', line 16</span>
+      <pre class="code"><span class="info file"># File 'lib/phidup.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_scan'>scan</span><span class='lparen'>(</span><span class='id identifier rubyid_dir'>dir</span><span class='comma'>,</span> <span class='id identifier rubyid_filetypes'>filetypes</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_files'>files</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -328,7 +370,6 @@
       <pre class="lines">
 
 
-34
 35
 36
 37
@@ -337,10 +378,11 @@
 40
 41
 42
-43</pre>
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/phidup.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/phidup.rb', line 35</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_show_dups'>show_dups</span><span class='lparen'>(</span><span class='id identifier rubyid_phile'>phile</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_duplist'>duplist</span> <span class='op'>=</span> <span class='id identifier rubyid_phile'>phile</span><span class='period'>.</span><span class='id identifier rubyid_dups'>dups</span>
@@ -350,8 +392,8 @@
     <span class='id identifier rubyid_dup'>dup</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_a'>a</span><span class='op'>|</span> <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_a'>a</span> <span class='rbrace'>}</span>
     <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>end</span>
-  <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_duplist'>duplist</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
-<span class='kw'>end</span></pre>
+  <span class='comment'># puts duplist.length
+</span><span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -362,7 +404,7 @@
 </div>
 
     <div id="footer">
-  Generated on Wed Aug 24 14:09:33 2016 by
+  Generated on Fri Aug 26 10:57:00 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.3.1).
 </div>
