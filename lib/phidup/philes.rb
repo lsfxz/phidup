@@ -16,23 +16,24 @@ module Phidup
     # @option opts [Boolean] :resume Whether to resume a scanning process.
     # @option opts [Boolean] :results Whether to show the results/duplicates.
     # @option opts [Boolean] :merge Whether to merge with another db.
-    def initialize(files, opts)
-      @files = files
-      @threshold = opts[:threshold]
-      dbfile = Pathname.new(opts[:dbfile]).expand_path
-      if (opts[:resume] || opts[:results] || opts[:append]) && !dbfile.exist?
-        puts "#{dbfile} does not exist!"
-        exit
-      elsif !(opts[:resume] || opts[:results] || opts[:append] || opts[:merge_given]) && dbfile.exist?
-        puts "#{dbfile} exists!"
-        exit
-      end
+    # def initialize(files, opts)
+    def initialize(dbfile)
+      # @files = files
+      # @threshold = opts[:threshold]
+      # dbfile = Pathname.new(opts[:dbfile]).expand_path
+      # if (opts[:resume] || opts[:results] || opts[:append]) && !dbfile.exist?
+      # puts "#{dbfile} does not exist!"
+      # exit
+      # elsif !(opts[:resume] || opts[:results] || opts[:append] || opts[:merge_given]) && dbfile.exist?
+      # puts "#{dbfile} exists!"
+      # exit
+      # end
 
       @db = SQLite3::Database.new(dbfile.to_s)
     end
 
     # Creates the tables in the database and fills it with the file pathes.
-    def create_db
+    def create_db(files)
       @db.execute_batch <<-EOS
       PRAGMA foreign_keys;
       CREATE TABLE tblphiles
@@ -59,7 +60,7 @@ module Phidup
       );
       EOS
 
-      @files.each { |f| store_path(f.to_s) }
+      files.each { |f| store_path(f.to_s) }
 
     end
 
@@ -90,10 +91,10 @@ module Phidup
     end
 
     # Appends further files to an existing database
-    def append
+    def append(files)
       philes = @db.execute('SELECT path FROM tblphiles').flatten
-      @files -= philes
-      @files.each { |f| store_path(f) }
+      files -= philes
+      files.each { |f| store_path(f) }
     end
 
     # Calculates the hamming distances between the files and stores them in
@@ -113,9 +114,9 @@ module Phidup
     # Returns the files from the database which, according to @threshold,
     # are potential duplicates
     # @return [String[]] an array of the pathes of potential duplicates
-    def dups
+    def dups(threshold)
       # TODO use each dist?
-      duplist = @db.execute('SELECT id_1, id_2 FROM tbl_philes_distances WHERE distance <= ?', @threshold)
+      duplist = @db.execute('SELECT id_1, id_2 FROM tbl_philes_distances WHERE distance <= ?', threshold)
       # smt_pharray = @db.prepare('SELECT hash_array FROM tbl_philes_hashes WHERE id == ?')
 
       # puts 'Dup:'
