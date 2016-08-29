@@ -9,6 +9,15 @@ filetypes = %w( wmv avi mpg mpeg
                webm m2p ts ps
                m2ts mov qt vob )
 
+def open_phile(dbfile, files,  opts)
+  phile = Phidup::Phile.new(dbfile)
+  phile.create_db(files.uniq) if opts[:create]
+  phile.append(files.uniq) if opts[:append]
+  phile.init_scan
+  phile.calc_dists
+  phile
+end
+
 # scans the given directory for files of filetype, optionally recurses
 # @param [String] dir path to a directory
 # @param [String[]] filetypes List of filetypes to include
@@ -32,8 +41,8 @@ end
 
 # outputs possible duplicates
 # @param [Phile] phile a Phile object
-def show_dups(phile, files)
-  duplist = phile.dups(files)
+def show_dups(phile, threshold)
+  duplist = phile.dups(threshold)
   puts 'Possible duplicates:'
   duplist.each do |dup|
     next if dup.nil?
@@ -67,18 +76,16 @@ filetypes.uniq!
 
 files = [] # otherwise Phile.new couldn't get an empty [] in case you resume
 files = ARGV.map { |d| scan(d, filetypes, opts) } unless ARGV.empty? # rm argv.empty??
+files.flatten!
 
 dbfile = Pathname.new(opts[:dbfile]).expand_path
-phile = Phidup::Phile.new(dbfile)
-# phile = Phidup::Phile.new(files.flatten.uniq, opts)
 
 unless opts[:resume] || opts[:append] || opts[:results] || opts[:merge]
-  # if dbfile.exist?
-    # puts opts
-    # puts "#{dbfile} exists!"
-    # exit
-  # end
-  phile.create_db(files)
+  if dbfile.exist?
+    puts "#{dbfile} exists!"
+    exit
+  end
+  open_phile(dbfile, files, create: true)
 end
 
 if opts[:resume] || opts[:append] || opts[:results] || opts[:merge]
@@ -86,18 +93,11 @@ if opts[:resume] || opts[:append] || opts[:results] || opts[:merge]
     puts "#{dbfile} doesn't exist!"
     exit
   end
-  phile.append(files) if opts[:append] && !files.empty?
+  phile = open_phile(dbfile, files, opts)
   if opts[:merge_given]
-    # puts "is merging...."
-    # other_phile = Phidup::Phile.new([], dbfile: opts[:merge], merge_given: true)
     other_dbfile = Pathname.new(opts[:merge]).expand_path
-    other_phile = Phidup::Phile.new(other_dbfile)
+    other_phile = open_phile(other_dbfile, files, opts)
     phile.merge(other_phile)
   end
-
-  phile.init_scan unless opts[:results]
-
-  opts[:results] ? show_dups(phile, files) : phile.calc_dists
+  show_dups(phile, opts[:threshold]) if opts[:results]
 end
-
-

@@ -68,7 +68,7 @@ module Phidup
     def init_scan
       files = @db.execute('SELECT id, path FROM tblphiles WHERE id NOT IN (SELECT id FROM tbl_philes_hashes)')
 
-      puts "files left: #{files.length}"
+      # puts "files left: #{files.length}"
 
       files.each do |f|
         ph = Phobject.new(f[1])
@@ -86,7 +86,7 @@ module Phidup
         # puts "File: #{ph.path}"
         # end
         store_phash(ph_array, f[0])
-        puts "#{f[0]}/#{files.length} done." # THIS IS, OF COURSE, BULLSHIT! FIX ME !! TODO
+        # puts "#{f[0]}/#{files.length} done." # THIS IS, OF COURSE, BULLSHIT! FIX ME !! TODO
       end
     end
 
