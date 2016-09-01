@@ -9,12 +9,19 @@ filetypes = %w( wmv avi mpg mpeg
                webm m2p ts ps
                m2ts mov qt vob )
 
+# Creates the Phile object and returns it, optionally starts calculating etc.
+# @param [Pathname] dbfile Path of the .sqlite file
+# @param [String[]] files A list of files
+# @option opts [Boolean] :create Whether to create a new database
+# @option opts [Boolean] :append Whether to append files too a new database
+# @option opts [Boolean] :append Whether to only show results
+# @return [Phile] phile 
 def open_phile(dbfile, files,  opts)
   phile = Phidup::Phile.new(dbfile)
   phile.create_db(files.uniq) if opts[:create]
   phile.append(files.uniq) if opts[:append]
-  phile.init_scan
-  phile.calc_dists
+  phile.init_scan unless opts[:results]
+  phile.calc_dists unless opts[:results]
   phile
 end
 

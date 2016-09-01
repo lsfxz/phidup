@@ -5,34 +5,16 @@ require 'phidup/phobject'
 
 module Phidup
   # Handles the database files and file pathes,
-  # initial scanning and comparing of .Phobjects.
+  # initial scanning and comparing of Phobjects.
   class Phile
     # Opens database file and fills it, if necessary..
-    #
-    # @param files [String[]] Pathes to files.
-    # @option opts [Integer] :threshold Hamming distance from which on a file
-    #   is considered a duplicate.
-    # @option opts [Boolean] :append Whether to append files to the db.
-    # @option opts [Boolean] :resume Whether to resume a scanning process.
-    # @option opts [Boolean] :results Whether to show the results/duplicates.
-    # @option opts [Boolean] :merge Whether to merge with another db.
-    # def initialize(files, opts)
+    # @param [Pathname] dbfile Path to database file
     def initialize(dbfile)
-      # @files = files
-      # @threshold = opts[:threshold]
-      # dbfile = Pathname.new(opts[:dbfile]).expand_path
-      # if (opts[:resume] || opts[:results] || opts[:append]) && !dbfile.exist?
-      # puts "#{dbfile} does not exist!"
-      # exit
-      # elsif !(opts[:resume] || opts[:results] || opts[:append] || opts[:merge_given]) && dbfile.exist?
-      # puts "#{dbfile} exists!"
-      # exit
-      # end
-
       @db = SQLite3::Database.new(dbfile.to_s)
     end
 
     # Creates the tables in the database and fills it with the file pathes.
+    # @param [String[]] files A list of files
     def create_db(files)
       @db.execute_batch <<-EOS
       PRAGMA foreign_keys;
@@ -61,15 +43,11 @@ module Phidup
       EOS
 
       files.each { |f| store_path(f.to_s) }
-
     end
 
     # Starts creating the perceptive hashes and saves them in the database
     def init_scan
       files = @db.execute('SELECT id, path FROM tblphiles WHERE id NOT IN (SELECT id FROM tbl_philes_hashes)')
-
-      # puts "files left: #{files.length}"
-
       files.each do |f|
         ph = Phobject.new(f[1])
         # puts "noping out of here" if ph.length == 0 || ph.phash.nil?
@@ -91,6 +69,7 @@ module Phidup
     end
 
     # Appends further files to an existing database
+    # @param [String[]] files A list of files
     def append(files)
       philes = @db.execute('SELECT path FROM tblphiles').flatten
       files -= philes
@@ -114,22 +93,15 @@ module Phidup
     # Returns the files from the database which, according to @threshold,
     # are potential duplicates
     # @return [String[]] an array of the pathes of potential duplicates
+    # @param [Float] threshold From which hamming distance on a file should be
+    # considered a duplicate
     def dups(threshold)
-      # TODO use each dist?
       duplist = @db.execute('SELECT id_1, id_2 FROM tbl_philes_distances WHERE distance <= ?', threshold)
-      # smt_pharray = @db.prepare('SELECT hash_array FROM tbl_philes_hashes WHERE id == ?')
-
-      # puts 'Dup:'
       duplist.map do |dup|
         phob = phob_by_id(dup[0])
         phob2 = phob_by_id(dup[1])
         next if phob.length == 0 || phob.phash.nil?
         next if phob2.length == 0 || phob2.phash.nil?
-
-        # pharr = smt_pharray.execute(phob.id).flatten[0]
-        # pharr2 = smt_pharray.execute(phob2.id).flatten[0]
-        # puts "debug: #{phob1.length}, #{phob2.length}"
-        # puts "#{phob.path} #{phob2.path}"
         [phob.path, phob2.path]
       end
     end
@@ -146,9 +118,8 @@ module Phidup
         phob.phash.read_array_of_ulong(phob.length).each do |h|
           ph_array << h
         end
-        # puts "about to store phash: #{new_id}"
-        store_phash(ph_array, new_id)
 
+        store_phash(ph_array, new_id)
         mappings[phob.id] = new_id
       end
 
@@ -196,7 +167,6 @@ module Phidup
     # @return [Fixnum] if successful.
     def store_path(path)
       # TODO: catch unique-constraint-exception?
-      # puts @db.execute('SELECT id FROM tblphiles WHERE path == ?', [path]).empty?
       return nil unless @db.execute('SELECT id FROM tblphiles WHERE path == ?', [path]).empty?
       @db.execute('INSERT INTO tblphiles (path) VALUES (?)', [path])
       # returns id
@@ -219,7 +189,6 @@ module Phidup
       # TODO: catch unique-constraint-exception?
       return nil unless @db.execute('SELECT distance FROM tbl_philes_distances WHERE id_1 == ? AND id_2 == ?', [id1, id2]).empty?
       @db.execute('INSERT INTO tbl_philes_distances (id_1, id_2, distance) VALUES (?, ?, ?)', [id1, id2, distance])
-      # returns id
     end
   end
 end

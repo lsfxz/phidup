@@ -30,8 +30,8 @@ phidup provides the `phidup` command, which provides (some help) via -h, until I
 
 ## TODO
 
-- [ ] Better and more tests.
-- [ ] Better and more documentation (yes, I know. I feel bad.)
+- [ ] Better and more tests. (Don't do everything by calling the main phidup.rb, test things individually)
+- [ ] Better and more documentation (yes, I know. I feel bad.) (somewhat done)
 - [ ] Understand why sometimes libpHash returns empty hashes. It's not even that much code, but I still don't understand it..
 - [ ] Understand how it sometimes manages to magically crash phidup/ruby silently, without even an exception being raised.
 - [ ] Fix the points above.

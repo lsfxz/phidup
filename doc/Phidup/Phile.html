@@ -103,7 +103,7 @@
   <div class="discussion">
     
 <p>Handles the database files and file pathes, initial scanning and comparing
-of .Phobjects.</p>
+of Phobjects.</p>
 
 
   </div>
@@ -129,7 +129,7 @@ of .Phobjects.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#append-instance_method" title="#append (instance method)">- (Object) <strong>append</strong> </a>
+      <a href="#append-instance_method" title="#append (instance method)">- (Object) <strong>append</strong>(files) </a>
     
 
     
@@ -178,7 +178,7 @@ database.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_db-instance_method" title="#create_db (instance method)">- (Object) <strong>create_db</strong> </a>
+      <a href="#create_db-instance_method" title="#create_db (instance method)">- (Object) <strong>create_db</strong>(files) </a>
     
 
     
@@ -202,7 +202,7 @@ database.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#dups-instance_method" title="#dups (instance method)">- (String[]) <strong>dups</strong> </a>
+      <a href="#dups-instance_method" title="#dups (instance method)">- (String[]) <strong>dups</strong>(threshold) </a>
     
 
     
@@ -218,7 +218,7 @@ database.</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>Returns the files from the database which, according to @threshold, are
-potential duplicates.</p>
+potential duplicates considered a duplicate.</p>
 </div></span>
   
 </li>
@@ -300,7 +300,7 @@ the Phobjects.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Phile) <strong>initialize</strong>(files, opts) </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Phile) <strong>initialize</strong>(dbfile) </a>
     
 
     
@@ -452,7 +452,7 @@ the Phobjects.</p>
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Phidup::Phile (class)">Phile</a></span></tt>) <strong>initialize</strong>(files, opts) 
+    - (<tt><span class='object_link'><a href="" title="Phidup::Phile (class)">Phile</a></span></tt>) <strong>initialize</strong>(dbfile) 
   
 
   
@@ -472,113 +472,21 @@ the Phobjects.</p>
   
     <li>
       
-        <span class='name'>files</span>
+        <span class='name'>dbfile</span>
       
       
-        <span class='type'>(<tt>String[]</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Pathes to files.</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>opts</span>
-      
-      
-        <span class='type'>(<tt>Hash</tt>)</span>
+        <span class='type'>(<tt>Pathname</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>a customizable set of options</p>
+<p>Path to database file</p>
 </div>
       
     </li>
   
 </ul>
-
-  
-    
-    
-    
-    
-    <p class="tag_title">Options Hash (<tt>opts</tt>):</p>
-    <ul class="option">
-      
-        <li>
-          <span class="name">:threshold</span>
-          <span class="type">(<tt>Integer</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>Hamming distance from which on a file is considered a duplicate.</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">:append</span>
-          <span class="type">(<tt>Boolean</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>Whether to append files to the db.</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">:resume</span>
-          <span class="type">(<tt>Boolean</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>Whether to resume a scanning process.</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">:results</span>
-          <span class="type">(<tt>Boolean</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>Whether to show the results/duplicates.</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">:merge</span>
-          <span class="type">(<tt>Boolean</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>Whether to merge with another db.</p>
-</div>
-          
-        </li>
-      
-    </ul>
-  
 
 
 </div><table class="source_code">
@@ -587,36 +495,14 @@ the Phobjects.</p>
       <pre class="lines">
 
 
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32</pre>
+12
+13
+14</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 12</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_files'>files</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
-  <span class='ivar'>@files</span> <span class='op'>=</span> <span class='id identifier rubyid_files'>files</span>
-  <span class='ivar'>@threshold</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:threshold</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_dbfile'>dbfile</span> <span class='op'>=</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:dbfile</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span>
-  <span class='kw'>if</span> <span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:resume</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:results</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:append</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_dbfile'>dbfile</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span>
-    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_dbfile'>dbfile</span><span class='embexpr_end'>}</span><span class='tstring_content'> does not exist!</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_exit'>exit</span>
-  <span class='kw'>elsif</span> <span class='op'>!</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:resume</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:results</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:append</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:merge_given</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_dbfile'>dbfile</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span>
-    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_dbfile'>dbfile</span><span class='embexpr_end'>}</span><span class='tstring_content'> exists!</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_exit'>exit</span>
-  <span class='kw'>end</span>
-
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_dbfile'>dbfile</span><span class='rparen'>)</span>
   <span class='ivar'>@db</span> <span class='op'>=</span> <span class='const'>SQLite3</span><span class='op'>::</span><span class='const'>Database</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_dbfile'>dbfile</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -634,7 +520,7 @@ the Phobjects.</p>
       <div class="method_details first">
   <h3 class="signature first" id="append-instance_method">
   
-    - (<tt>Object</tt>) <strong>append</strong> 
+    - (<tt>Object</tt>) <strong>append</strong>(files) 
   
 
   
@@ -649,7 +535,27 @@ the Phobjects.</p>
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>files</span>
+      
+      
+        <span class='type'>(<tt>String[]</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A list of files</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -657,19 +563,19 @@ the Phobjects.</p>
       <pre class="lines">
 
 
-93
-94
-95
-96
-97</pre>
+73
+74
+75
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 73</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_append'>append</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_append'>append</span><span class='lparen'>(</span><span class='id identifier rubyid_files'>files</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_philes'>philes</span> <span class='op'>=</span> <span class='ivar'>@db</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SELECT path FROM tblphiles</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
-  <span class='ivar'>@files</span> <span class='op'>-=</span> <span class='id identifier rubyid_philes'>philes</span>
-  <span class='ivar'>@files</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_store_path'>store_path</span><span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_files'>files</span> <span class='op'>-=</span> <span class='id identifier rubyid_philes'>philes</span>
+  <span class='id identifier rubyid_files'>files</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_store_path'>store_path</span><span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -703,20 +609,20 @@ database</p>
       <pre class="lines">
 
 
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111</pre>
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 81</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_calc_dists'>calc_dists</span>
   <span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_phob'>phob</span><span class='op'>|</span>
@@ -737,7 +643,7 @@ database</p>
       <div class="method_details ">
   <h3 class="signature " id="create_db-instance_method">
   
-    - (<tt>Object</tt>) <strong>create_db</strong> 
+    - (<tt>Object</tt>) <strong>create_db</strong>(files) 
   
 
   
@@ -752,7 +658,27 @@ database</p>
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>files</span>
+      
+      
+        <span class='type'>(<tt>String[]</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A list of files</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -760,6 +686,23 @@ database</p>
       <pre class="lines">
 
 
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
 35
 36
 37
@@ -771,30 +714,12 @@ database</p>
 43
 44
 45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64</pre>
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 18</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_create_db'>create_db</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_create_db'>create_db</span><span class='lparen'>(</span><span class='id identifier rubyid_files'>files</span><span class='rparen'>)</span>
   <span class='ivar'>@db</span><span class='period'>.</span><span class='id identifier rubyid_execute_batch'>execute_batch</span> <span class='heredoc_beg'>&lt;&lt;-EOS</span>
 <span class='tstring_content'>  PRAGMA foreign_keys;
   CREATE TABLE tblphiles
@@ -821,8 +746,7 @@ database</p>
   );
 </span><span class='heredoc_end'>  EOS
 </span>
-  <span class='ivar'>@files</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_store_path'>store_path</span><span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
-
+  <span class='id identifier rubyid_files'>files</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_store_path'>store_path</span><span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -832,7 +756,7 @@ database</p>
       <div class="method_details ">
   <h3 class="signature " id="dups-instance_method">
   
-    - (<tt>String[]</tt>) <strong>dups</strong> 
+    - (<tt>String[]</tt>) <strong>dups</strong>(threshold) 
   
 
   
@@ -842,13 +766,33 @@ database</p>
   <div class="discussion">
     
 <p>Returns the files from the database which, according to @threshold, are
-potential duplicates</p>
+potential duplicates considered a duplicate</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>threshold</span>
+      
+      
+        <span class='type'>(<tt>Float</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>From which hamming distance on a file should be</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
@@ -874,46 +818,28 @@ potential duplicates</p>
       <pre class="lines">
 
 
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134</pre>
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 98</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_dups'>dups</span>
-  <span class='comment'># TODO use each dist?
-</span>  <span class='id identifier rubyid_duplist'>duplist</span> <span class='op'>=</span> <span class='ivar'>@db</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SELECT id_1, id_2 FROM tbl_philes_distances WHERE distance &lt;= ?</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='ivar'>@threshold</span><span class='rparen'>)</span>
-  <span class='comment'># smt_pharray = @db.prepare(&#39;SELECT hash_array FROM tbl_philes_hashes WHERE id == ?&#39;)
-</span>
-  <span class='comment'># puts &#39;Dup:&#39;
-</span>  <span class='id identifier rubyid_duplist'>duplist</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_dup'>dup</span><span class='op'>|</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_dups'>dups</span><span class='lparen'>(</span><span class='id identifier rubyid_threshold'>threshold</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_duplist'>duplist</span> <span class='op'>=</span> <span class='ivar'>@db</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SELECT id_1, id_2 FROM tbl_philes_distances WHERE distance &lt;= ?</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_threshold'>threshold</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_duplist'>duplist</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_dup'>dup</span><span class='op'>|</span>
     <span class='id identifier rubyid_phob'>phob</span> <span class='op'>=</span> <span class='id identifier rubyid_phob_by_id'>phob_by_id</span><span class='lparen'>(</span><span class='id identifier rubyid_dup'>dup</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_phob2'>phob2</span> <span class='op'>=</span> <span class='id identifier rubyid_phob_by_id'>phob_by_id</span><span class='lparen'>(</span><span class='id identifier rubyid_dup'>dup</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span>
     <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_phob'>phob</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>==</span> <span class='int'>0</span> <span class='op'>||</span> <span class='id identifier rubyid_phob'>phob</span><span class='period'>.</span><span class='id identifier rubyid_phash'>phash</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
     <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_phob2'>phob2</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>==</span> <span class='int'>0</span> <span class='op'>||</span> <span class='id identifier rubyid_phob2'>phob2</span><span class='period'>.</span><span class='id identifier rubyid_phash'>phash</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-
-    <span class='comment'># pharr = smt_pharray.execute(phob.id).flatten[0]
-</span>    <span class='comment'># pharr2 = smt_pharray.execute(phob2.id).flatten[0]
-</span>    <span class='comment'># puts &quot;debug: #{phob1.length}, #{phob2.length}&quot;
-</span>    <span class='comment'># puts &quot;#{phob.path} #{phob2.path}&quot;
-</span>    <span class='lbracket'>[</span><span class='id identifier rubyid_phob'>phob</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_phob2'>phob2</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='rbracket'>]</span>
+    <span class='lbracket'>[</span><span class='id identifier rubyid_phob'>phob</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_phob2'>phob2</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='rbracket'>]</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -966,16 +892,16 @@ the Phobjects.</p>
       <pre class="lines">
 
 
-172
-173
-174
-175
-176
-177
-178</pre>
+144
+145
+146
+147
+148
+149
+150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 172</span>
+      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 144</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_enum_for'>enum_for</span><span class='lparen'>(</span><span class='symbol'>:each</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
@@ -1034,17 +960,17 @@ the already calucated hamming distances between the files.</p>
       <pre class="lines">
 
 
-183
-184
-185
-186
-187
-188
-189
-190</pre>
+155
+156
+157
+158
+159
+160
+161
+162</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 183</span>
+      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 155</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_each_dist'>each_dist</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_enum_for'>enum_for</span><span class='lparen'>(</span><span class='symbol'>:each_dist</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
@@ -1085,39 +1011,33 @@ the already calucated hamming distances between the files.</p>
       <pre class="lines">
 
 
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
 67
 68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90</pre>
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_init_scan'>init_scan</span>
   <span class='id identifier rubyid_files'>files</span> <span class='op'>=</span> <span class='ivar'>@db</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SELECT id, path FROM tblphiles WHERE id NOT IN (SELECT id FROM tbl_philes_hashes)</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-
-  <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>files left: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_files'>files</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-
   <span class='id identifier rubyid_files'>files</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
     <span class='id identifier rubyid_ph'>ph</span> <span class='op'>=</span> <span class='const'>Phobject</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span>
     <span class='comment'># puts &quot;noping out of here&quot; if ph.length == 0 || ph.phash.nil?
@@ -1134,7 +1054,7 @@ the already calucated hamming distances between the files.</p>
 </span>    <span class='comment'># puts &quot;File: #{ph.path}&quot;
 </span>    <span class='comment'># end
 </span>    <span class='id identifier rubyid_store_phash'>store_phash</span><span class='lparen'>(</span><span class='id identifier rubyid_ph_array'>ph_array</span><span class='comma'>,</span> <span class='id identifier rubyid_f'>f</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_f'>f</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_files'>files</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_content'> done.</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># THIS IS, OF COURSE, BULLSHIT! FIX ME !! TODO
+    <span class='comment'># puts &quot;#{f[0]}/#{files.length} done.&quot; # THIS IS, OF COURSE, BULLSHIT! FIX ME !! TODO
 </span>  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1188,30 +1108,29 @@ the already calucated hamming distances between the files.</p>
       <pre class="lines">
 
 
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158</pre>
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 111</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_other_phile'>other_phile</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_other_phile'>other_phile</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Phile</span><span class='rparen'>)</span> <span class='kw'>or</span> <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>other_phile is not a Phile</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -1223,9 +1142,8 @@ the already calucated hamming distances between the files.</p>
     <span class='id identifier rubyid_phob'>phob</span><span class='period'>.</span><span class='id identifier rubyid_phash'>phash</span><span class='period'>.</span><span class='id identifier rubyid_read_array_of_ulong'>read_array_of_ulong</span><span class='lparen'>(</span><span class='id identifier rubyid_phob'>phob</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_h'>h</span><span class='op'>|</span>
       <span class='id identifier rubyid_ph_array'>ph_array</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_h'>h</span>
     <span class='kw'>end</span>
-    <span class='comment'># puts &quot;about to store phash: #{new_id}&quot;
-</span>    <span class='id identifier rubyid_store_phash'>store_phash</span><span class='lparen'>(</span><span class='id identifier rubyid_ph_array'>ph_array</span><span class='comma'>,</span> <span class='id identifier rubyid_new_id'>new_id</span><span class='rparen'>)</span>
 
+    <span class='id identifier rubyid_store_phash'>store_phash</span><span class='lparen'>(</span><span class='id identifier rubyid_ph_array'>ph_array</span><span class='comma'>,</span> <span class='id identifier rubyid_new_id'>new_id</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_mappings'>mappings</span><span class='lbracket'>[</span><span class='id identifier rubyid_phob'>phob</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_new_id'>new_id</span>
   <span class='kw'>end</span>
 
@@ -1303,14 +1221,14 @@ the already calucated hamming distances between the files.</p>
       <pre class="lines">
 
 
-163
-164
-165
-166
-167</pre>
+135
+136
+137
+138
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_phob_by_id'>phob_by_id</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='ivar'>@db</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SELECT path FROM tblphiles WHERE id == ?</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_id'>id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
@@ -1418,22 +1336,20 @@ the already calucated hamming distances between the files.</p>
       <pre class="lines">
 
 
-217
-218
-219
-220
-221
-222</pre>
+188
+189
+190
+191
+192</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 217</span>
+      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 188</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_store_dist'>store_dist</span><span class='lparen'>(</span><span class='id identifier rubyid_id1'>id1</span><span class='comma'>,</span> <span class='id identifier rubyid_id2'>id2</span><span class='comma'>,</span> <span class='id identifier rubyid_distance'>distance</span><span class='rparen'>)</span>
   <span class='comment'># TODO: catch unique-constraint-exception?
 </span>  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='ivar'>@db</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SELECT distance FROM tbl_philes_distances WHERE id_1 == ? AND id_2 == ?</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_id1'>id1</span><span class='comma'>,</span> <span class='id identifier rubyid_id2'>id2</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
   <span class='ivar'>@db</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>INSERT INTO tbl_philes_distances (id_1, id_2, distance) VALUES (?, ?, ?)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_id1'>id1</span><span class='comma'>,</span> <span class='id identifier rubyid_id2'>id2</span><span class='comma'>,</span> <span class='id identifier rubyid_distance'>distance</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-  <span class='comment'># returns id
-</span><span class='kw'>end</span></pre>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1517,21 +1433,19 @@ the already calucated hamming distances between the files.</p>
       <pre class="lines">
 
 
-196
-197
-198
-199
-200
-201
-202
-203</pre>
+168
+169
+170
+171
+172
+173
+174</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 196</span>
+      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 168</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_store_path'>store_path</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
   <span class='comment'># TODO: catch unique-constraint-exception?
-</span>  <span class='comment'># puts @db.execute(&#39;SELECT id FROM tblphiles WHERE path == ?&#39;, [path]).empty?
 </span>  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='ivar'>@db</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SELECT id FROM tblphiles WHERE path == ?</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_path'>path</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
   <span class='ivar'>@db</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>INSERT INTO tblphiles (path) VALUES (?)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_path'>path</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='comment'># returns id
@@ -1604,12 +1518,12 @@ the already calucated hamming distances between the files.</p>
       <pre class="lines">
 
 
-208
-209
-210</pre>
+179
+180
+181</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 208</span>
+      <pre class="code"><span class="info file"># File 'lib/phidup/philes.rb', line 179</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_store_phash'>store_phash</span><span class='lparen'>(</span><span class='id identifier rubyid_ph_array'>ph_array</span><span class='comma'>,</span> <span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
   <span class='ivar'>@db</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>INSERT INTO tbl_philes_hashes (id, hash_array) VALUES(?, ?)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='const'>YAML</span><span class='period'>.</span><span class='id identifier rubyid_dump'>dump</span><span class='lparen'>(</span><span class='id identifier rubyid_ph_array'>ph_array</span><span class='rparen'>)</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -1624,7 +1538,7 @@ the already calucated hamming distances between the files.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Aug 26 10:57:00 2016 by
+  Generated on Thu Sep  1 13:44:23 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.3.1).
 </div>
